@@ -1,6 +1,7 @@
 package org.fasttrackit.workshop.login;
 
 import com.sdl.selenium.web.utils.Utils;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -27,11 +28,7 @@ public class LoginSteps extends TestBaseNative {
 
     @Given("^I insert valid credentials$")
     public void I_insert_valid_credentials() throws Throwable {
-       WebElement email = driver.findElement(By.id("email"));
-        email.sendKeys("eu@fast.com");
-
-        WebElement password = driver.findElement(By.id("password"));
-        password.sendKeys("eu.pass");
+        I_enter_credentials("eu@fast.com", "eu.pass");
 
     }
 
@@ -60,20 +57,19 @@ public class LoginSteps extends TestBaseNative {
 
     @Given("^I insert invalid credentials$")
     public void I_insert_invalid_credentials() throws Throwable {
-        WebElement email = driver.findElement(By.id("email"));
-        email.sendKeys("em@fast.com");
-
-        WebElement password = driver.findElement(By.id("password"));
-        password.sendKeys("eu.pass");
+        I_enter_credentials("em@fast.com", "eu.pass");
     }
 
     @Then("^I expect invalid credential message$")
-    public void I_expect_invalid_credential_message() throws Throwable {
-        WebElement error = driver.findElement(By.className("error-msg"));
-        assertThat(error.getText(), is("Invalid user or password!"));
-
-        Utils.sleep(1000);
+    public void I_expect_invalid_credential_message(){
+        errorMessageShouldBePresent("Invalid user or password!");
     }
+
+    private void errorMessageShouldBePresent( String expectedMessage) {
+        WebElement error = driver.findElement(By.className("error-msg"));
+        assertThat(error.getText(), is(expectedMessage));
+    }
+
 
     @Given("^I open this url \"([^\"]*)\"$")
     public void I_open_this_url(String url) throws Throwable {
@@ -83,5 +79,27 @@ public class LoginSteps extends TestBaseNative {
     @Then("^I send (\\d+) into search field$")
     public void I_send_into_search_field(int arg1) throws Throwable {
         System.out.println("numarul este: " + arg1);
+    }
+
+    @When("^I enter \"([^\"]*)\"/\"([^\"]*)\" credentials$")
+    public void I_enter_credentials(String emailValue, String passValue) throws Throwable {
+        WebElement email = driver.findElement(By.id("email"));
+        email.sendKeys(emailValue);
+
+        WebElement pass = driver.findElement(By.id("password"));
+        pass.sendKeys(passValue);
+    }
+
+    @Then("^I expect \"([^\"]*)\" message$")
+    public void I_expect_message(String errorMessage) {
+        errorMessageShouldBePresent(errorMessage);
+    }
+
+    @Given("^I successfully login$")
+    public void I_successfully_login() throws Throwable {
+        I_access_the_login_page();
+        I_insert_valid_credentials();
+        I_click_login_button();
+        I_check_if_user_was_logged_in();
     }
 }
