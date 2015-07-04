@@ -1,3 +1,5 @@
+@screen
+
 Feature: Login
 
   //Scenario: Open any web page
@@ -42,6 +44,5 @@ Feature: Login
 
   Scenario: Logout success
     Given I successfully login
-    When I click on some element
 
 
