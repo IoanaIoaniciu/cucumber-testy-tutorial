@@ -4,6 +4,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.fasttrackit.util.TestBase;
+import org.fasttrackit.workshop.menu.MainMenuView;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ import static org.hamcrest.core.Is.is;
 
 public class LoginSteps extends TestBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginSteps.class);
-    public static final String VALID_EMAIL = "em@fast.com";
+    public static final String VALID_EMAIL = "eu@fast.com";
     public static String VALID_PASSWORD = "eu.pass";
 
     private LoginView loginPage = new LoginView(); // practic loginPage e un obiect de tip LoginView, o puteam denumi si loginView :D
@@ -27,7 +28,7 @@ public class LoginSteps extends TestBase {
 
     @Given("^I insert valid credentials$")
     public void I_insert_valid_credentials() throws Throwable {
-        I_enter_credentials("eu@fast.com", "eu.pass");
+        I_enter_credentials(VALID_EMAIL, VALID_PASSWORD);
 
     }
 
@@ -42,15 +43,18 @@ public class LoginSteps extends TestBase {
 
     @Then("^I check if user was logged in$")
     public void I_check_if_user_was_logged_in() throws Throwable {
-        //WebElement logout = driver.findElement(By.linkText("Logout"));
-        //boolean successLoggedIn = logout.isDisplayed();
-        //assertThat("Could not find logout button", successLoggedIn, is(true));
-        boolean successLoggedIn = false;
-        try{
-            WebElement logout = driver.findElement(By.linkText("Logout"));
-            successLoggedIn = logout.isDisplayed();
-        } catch (Exception e){}
-        assertThat("Could not find logout button", successLoggedIn, is(true));
+        MainMenuView.logout.waitToRender();
+        MainMenuView.logout.assertExists();
+
+//        boolean successLoggedIn = false;
+//        try{
+//            WebElement logout = driver.findElement(By.linkText("Logout"));
+//            System.out.println("LOGOUT EXIST");
+//            successLoggedIn = logout.isDisplayed();
+//        } catch (Exception e){
+//            LOGGER.error("logout exception", e);
+//        }
+//        assertThat("Could not find logout button", successLoggedIn, is(true));
     }
 
     @Given("^I insert invalid credentials$")

@@ -9,6 +9,8 @@ Feature: As a logged in use I can change my password
     And I input new password
     And I confirm the new password
     And Click on Save button
-    Then I should see "Your password has been successfully chnaged." message
+    Then I should see "Your password has been successfully changed." message
     And I close the Preferences window
-    And I can relogin with new credentials
+    And I logout
+    And I successfully login
+    #And I can relogin with new credentials
