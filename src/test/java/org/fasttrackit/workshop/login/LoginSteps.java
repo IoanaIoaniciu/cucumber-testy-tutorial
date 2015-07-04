@@ -70,12 +70,7 @@ public class LoginSteps extends TestBaseNative {
 
     @Then("^I expect invalid credential message$")
     public void I_expect_invalid_credential_message(){
-        errorMessageShouldBePresent("Invalid user or password!");
-    }
-
-    private void errorMessageShouldBePresent( String expectedMessage) {
-        WebElement error = driver.findElement(By.className("error-msg"));
-        assertThat(error.getText(), is(expectedMessage));
+       loginPage.errorMessageShouldBePresent("Invalid user or password!");
     }
 
 
@@ -96,7 +91,8 @@ public class LoginSteps extends TestBaseNative {
 
     @Then("^I expect \"([^\"]*)\" message$")
     public void I_expect_message(String errorMessage) {
-        errorMessageShouldBePresent(errorMessage);
+
+        loginPage.errorMessageShouldBePresent(errorMessage);
     }
 
     @Given("^I successfully login$")
