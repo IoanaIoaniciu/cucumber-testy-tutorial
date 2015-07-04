@@ -14,6 +14,8 @@ import static org.hamcrest.core.Is.is;
 
 public class LoginSteps extends TestBase {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginSteps.class);
+    public static final String VALID_EMAIL = "em@fast.com";
+    public static String VALID_PASSWORD = "eu.pass";
 
     private LoginView loginPage = new LoginView(); // practic loginPage e un obiect de tip LoginView, o puteam denumi si loginView :D
 
@@ -53,7 +55,7 @@ public class LoginSteps extends TestBase {
 
     @Given("^I insert invalid credentials$")
     public void I_insert_invalid_credentials() throws Throwable {
-        I_enter_credentials("em@fast.com", "eu.pass");
+        I_enter_credentials(VALID_EMAIL, VALID_PASSWORD);
     }
 
     @Then("^I expect invalid credential message$")
